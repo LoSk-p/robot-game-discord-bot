@@ -5,6 +5,10 @@ import typing as tp
 from ..exceptions.message_exceptions import AddressIsInWrongFormat, AddressIsNotED25519, NoAddressInMessage
 from ..utils import try_to_encrypt
 
+from ..logger import get_logger
+
+logger = get_logger(__name__)
+
 class MessageWithAddressHandler:
     def __init__(self, message: Message) -> None:
         self.message: Message = message
@@ -22,7 +26,7 @@ class MessageWithAddressHandler:
             if is_valid_ss58_address(word):
                 return word
         else:
-            print(f"Message {self.message.content} from {self.message.author} does't content address")
+            logger.info(f"Message {self.message.content} from {self.message.author} does't content address")
             raise NoAddressInMessage
         
     def _check_address_format(self, address: str) -> None:

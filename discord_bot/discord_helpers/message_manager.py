@@ -1,8 +1,6 @@
 from discord import Message, User, Member
 import typing as tp
 
-from ..models.player import Player
-
 class MessageManager:
 
     @staticmethod
@@ -29,5 +27,5 @@ class MessageManager:
     def message_with_dapp() -> str:
         return "Робот закончил, можете идти отсматривать дапп (и ссылка)"
     
-    def message_with_winner(winner_player: Player) -> str:
-        return f"The winner of this round is {winner_player.discord_account.name}, with address {winner_player.robonomics_address}"
+    def message_with_winner(winner_address: str, winner_user_name: tp.Optional[str]) -> str:
+        return f"The winner of this round is {winner_user_name}, with address {winner_address}"

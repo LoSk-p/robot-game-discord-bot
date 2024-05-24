@@ -4,6 +4,10 @@ from robonomicsinterface import Subscriber, SubEvent, Account
 
 from .transaction_format import TransferData, DatalogData
 
+from ..logger import get_logger
+
+logger = get_logger(__name__)
+
 class Subscription(abc.ABC):
     def __init__(self, callback: tp.Callable, sub_event: SubEvent) -> None:
         self.callback = callback
@@ -13,7 +17,7 @@ class Subscription(abc.ABC):
     def subscribe(self) -> None:
         self.subscriber = Subscriber(Account(), self.sub_event, self._subscription_handler)
 
-    def close(self) -> None:
+    def _close(self) -> None:
         if self.subscriber is not None:
             self.subscriber.cancel()
 
@@ -25,19 +29,21 @@ class TransferSubscription(Subscription):
         super().__init__(callback, SubEvent.Transfer)
         self.sender = sender
 
-    def _subscription_handler(self, data: tp.Tuple[str | int]) -> None:
+    def _subscription_handler(self, data: tp.Tuple) -> None:
         transfer_data = TransferData(data)
         if transfer_data.sender == self.sender:
-            print(f"{transfer_data.amount} XRT was sent from {self.sender} to {transfer_data.receiver}")
+            logger.info(f"{transfer_data.amount} XRT was sent from {self.sender} to {transfer_data.receiver}")
             self.callback(transfer_data.receiver)
+            self._close()
 
 class DatalogSubscription(Subscription):
     def __init__(self, callback: tp.Callable, robot_aadress: str) -> None:
         super().__init__(callback, SubEvent.NewRecord)
         self.robot_address = robot_aadress
 
-    def _subscription_handler(self, data: tp.Tuple[str | int]) -> None:
+    def _subscription_handler(self, data: tp.Tuple) -> None:
         datalog_data = DatalogData(data)
         if datalog_data.sender == self.robot_address:
-            print("Datalog was sent from Robot account")
+            logger.info("Datalog was sent from Robot account")
             self.callback()
+            self._close()

@@ -1,7 +1,4 @@
-import typing as tp
-from discord import User, Member
-
 class Player:
-    def __init__(self, discord_account: tp.Union[User, Member], robonomics_address: str):
-        self.discord_account = discord_account
+    def __init__(self, discord_account_name: str, robonomics_address: str):
+        self.discord_account_name = discord_account_name
         self.robonomics_address = robonomics_address
