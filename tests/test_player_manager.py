@@ -1,7 +1,6 @@
 import pytest
 
 from discord_bot.player_manager import PlayersManager
-from discord_bot.models.player import Player
 from discord_bot.exceptions.players_exceptions import TooManyPlayers
 
 def test_add_player():

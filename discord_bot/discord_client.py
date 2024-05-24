@@ -12,7 +12,6 @@ from .exceptions.message_exceptions import (
     NoAddressInMessage,
 )
 from .logger import get_logger
-from .models.player import Player
 
 logger = get_logger(__name__)
 
