@@ -1,20 +1,27 @@
 import typing as tp
+
 import discord
 
+from .config.config import DISCORD_TOKEN
+from .discord_helpers.discord_client import DiscordClient
 from .discord_helpers.message_address_handler import MessageWithAddressHandler
 from .discord_helpers.message_manager import MessageManager
-from .discord_helpers.discord_client import DiscordClient
-from .exceptions.message_exceptions import AddressIsInWrongFormat, AddressIsNotED25519, NoAddressInMessage
-from .models.player import Player
+from .exceptions.message_exceptions import (
+    AddressIsInWrongFormat,
+    AddressIsNotED25519,
+    NoAddressInMessage,
+)
 from .logger import get_logger
-
-from .config.config import DISCORD_TOKEN
+from .models.player import Player
 
 logger = get_logger(__name__)
 
+
 class Discord:
     def __init__(self, wait_for_ready_callback: tp.Awaitable) -> None:
-        self.discord_client = DiscordClient(self._on_message_callback, wait_for_ready_callback)
+        self.discord_client = DiscordClient(
+            self._on_message_callback, wait_for_ready_callback
+        )
         self.got_address_callback: tp.Awaitable = None
 
     async def start(self) -> None:
@@ -25,18 +32,26 @@ class Discord:
         logger.info("Start wait for addresses")
         self.got_address_callback = callback
         return self._stop_wait_for_addresses
-    
+
     async def send_start_message(self) -> None:
         await self.discord_client.send_message(MessageManager.start_round_message())
 
     async def send_message_with_dapp(self) -> None:
         await self.discord_client.send_message(MessageManager.message_with_dapp())
 
-    async def send_message_with_winner(self, winner_address: str, winner_user_name: tp.Optional[str]) -> None:
-        await self.discord_client.send_message(MessageManager.message_with_winner(winner_address, winner_user_name))
+    async def send_message_with_winner(
+        self, winner_address: str, winner_user_name: tp.Optional[str]
+    ) -> None:
+        await self.discord_client.send_message(
+            MessageManager.message_with_winner(winner_address, winner_user_name)
+        )
 
-    async def send_message_second_address_from_user(self, user: tp.Union[discord.User, discord.Member]) -> None:
-        await self.discord_client.send_message(MessageManager.second_address_from_one_user(user))
+    async def send_message_second_address_from_user(
+        self, user: tp.Union[discord.User, discord.Member]
+    ) -> None:
+        await self.discord_client.send_message(
+            MessageManager.second_address_from_one_user(user)
+        )
 
     def _stop_wait_for_addresses(self) -> None:
         logger.info("Stop wait for addresses")
@@ -50,7 +65,9 @@ class Discord:
             if address is not None:
                 await self.got_address_callback(address, message.author)
 
-    async def _get_address_from_message(self, message: discord.Message) -> tp.Optional[str]:
+    async def _get_address_from_message(
+        self, message: discord.Message
+    ) -> tp.Optional[str]:
         try:
             address = MessageWithAddressHandler(message).get_address()
         except NoAddressInMessage:
@@ -58,13 +75,12 @@ class Discord:
             return None
         except AddressIsInWrongFormat:
             logger.info(f"Given address is in wrong format: {message.content}")
-            await self.discord_client.send_message(MessageManager.wrong_format_message(address, message))
+            await self.discord_client.send_message(
+                MessageManager.wrong_format_message(address, message)
+            )
         except AddressIsNotED25519:
             logger.info(f"Given address is not ed type: {message.content}")
-            await self.discord_client.send_message(MessageManager.wrong_type_message(address, message))
+            await self.discord_client.send_message(
+                MessageManager.wrong_type_message(address, message)
+            )
         return address
-    
-    
-
-
-

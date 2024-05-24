@@ -1,10 +1,11 @@
-import typing as tp
 import asyncio
+import typing as tp
 
 from .config.config import ADDRESSES_WAITING_TIME, NOTIFY_TIMEOUT
 from .logger import get_logger
 
 logger = get_logger(__name__)
+
 
 class GameTimer:
     def __init__(self) -> None:
@@ -21,17 +22,15 @@ class GameTimer:
 
     async def _job(self):
         self.is_running = True
-        for i in range(int(self._timeout/self._notify_timeout)):
+        for i in range(int(self._timeout / self._notify_timeout)):
             await asyncio.sleep(self._notify_timeout)
         self.is_running = False
         logger.info("Timer finished")
         if self._callback is not None:
             await self._callback()
 
-    
     def stop(self):
         logger.info("Timer stopped")
         if self._task is not None:
             self._task.cancel()
         self.is_running = False
-

@@ -1,13 +1,12 @@
-from io import TextIOWrapper
 import json
-
 import typing as tp
-
-from .utils import get_path_to_unused_seeds, get_path_to_used_seeds
+from io import TextIOWrapper
 
 from .logger import get_logger
+from .utils import get_path_to_unused_seeds, get_path_to_used_seeds
 
 logger = get_logger(__name__)
+
 
 class SeedManager:
     def __init__(self) -> None:
@@ -15,7 +14,9 @@ class SeedManager:
         self.path_to_used_seeds_file: str = get_path_to_used_seeds()
         self.current_seed: tp.Optional[str] = None
         self.unused_seeds_count: tp.Optional[int] = self._get_unused_seeds_count()
-        logger.info(f"Seed Manager is ready, path to unused seeds: {self.path_to_unused_seeds_file}, path to used seeds: {self.path_to_used_seeds_file}")
+        logger.info(
+            f"Seed Manager is ready, path to unused seeds: {self.path_to_unused_seeds_file}, path to used seeds: {self.path_to_used_seeds_file}"
+        )
 
     def get_new(self) -> str:
         logger.info("Get new seed request")
@@ -24,7 +25,7 @@ class SeedManager:
         logger.info(f"New seed for game is: {new_seed}")
         self.current_seed = new_seed
         return new_seed
-    
+
     def get_unused_seeds_count(self) -> int:
         return self.unused_seeds_count
 
@@ -57,7 +58,7 @@ class SeedManager:
             seeds = json.load(f)
             seeds_count = len(seeds)
         return seeds_count
-    
+
     def _update_unused_seeds_count(self, new_count: int) -> None:
         logger.info(f"unused seed count: {new_count}")
         self.unused_seeds_count = new_count

@@ -1,21 +1,23 @@
-from discord import User, Member
-import typing as tp
 import asyncio
+import typing as tp
+
+from discord import Member, User
 
 from .discord_client import Discord
+from .game_timer import GameTimer
+from .logger import get_logger
 from .player_manager import PlayersManager
 from .robonomics import Robonomics
 from .seed_manager import SeedManager
-from .game_timer import GameTimer
-from .logger import get_logger
 
-#TODO StateManager:
+# TODO StateManager:
 #         save rounds history
 #         save current stage with data: current_seed, current_players, current time
 #         read current stage with data
 # Player should't save all discord acc, only name
 
 logger = get_logger(__name__)
+
 
 class Coordinator:
     def __init__(self) -> None:
@@ -38,10 +40,14 @@ class Coordinator:
     async def _start_round(self):
         logger.info("Start new round")
         await self.discord.send_start_message()
-        self.stop_wait_for_addresses = self.discord.wait_for_addresses(self._got_address_in_discord)
+        self.stop_wait_for_addresses = self.discord.wait_for_addresses(
+            self._got_address_in_discord
+        )
         self.game_timer.start(self._first_stage_time_is_finished)
 
-    async def _got_address_in_discord(self, address: str, message_author: tp.Union[User, Member]):
+    async def _got_address_in_discord(
+        self, address: str, message_author: tp.Union[User, Member]
+    ):
         logger.info(f"Got address in discord {address} from {message_author}")
         if self.players_manager.discord_acc_in_players(message_author.name):
             await self.discord.send_message_second_address_from_user(message_author)
@@ -59,20 +65,24 @@ class Coordinator:
             await self._second_stage()
 
     async def _second_stage(self):
-        logger.info("Start second stage: set rws devices, get seed, sed launch, wait for datalog")
+        logger.info(
+            "Start second stage: set rws devices, get seed, sed launch, wait for datalog"
+        )
         new_devices = self.players_manager.get_players_addresses()
         await self.robonomics.set_new_rws_devices_list(new_devices)
         new_seed = self.seed_manager.get_new()
         await self.robonomics.send_start_command_to_robot(new_seed)
         self.robonomics.wait_for_datalog(self._second_stage_finished)
-    
+
     def _second_stage_finished(self):
         self.event_loop.create_task(self._third_stage())
 
     async def _third_stage(self):
         logger.info("Start third stage: wait for transfer")
         await self.discord.send_message_with_dapp()
-        self.robonomics.wait_for_transfer(self.seed_manager.current_seed, self._got_winner)
+        self.robonomics.wait_for_transfer(
+            self.seed_manager.current_seed, self._got_winner
+        )
         pass
 
     def _got_winner(self, winner_address: str):
@@ -83,9 +93,10 @@ class Coordinator:
             winner_user_name = winner_player.discord_account_name
         self.event_loop.create_task(self._last_stage(winner_address, winner_user_name))
 
-    async def _last_stage(self, winner_address: str, winner_user_name: tp.Optional[str]):
+    async def _last_stage(
+        self, winner_address: str, winner_user_name: tp.Optional[str]
+    ):
         await self.discord.send_message_with_winner(winner_address, winner_user_name)
         await self.robonomics.clear_rws_devices()
         self.players_manager.clear_players()
         await self._start_round()
-

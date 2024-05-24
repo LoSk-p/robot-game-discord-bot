@@ -1,10 +1,9 @@
 import typing as tp
 
-from .models.player import Player
-from .exceptions.players_exceptions import TooManyPlayers
 from .config.config import MAX_PLAYERS_COUNT
-
+from .exceptions.players_exceptions import TooManyPlayers
 from .logger import get_logger
+from .models.player import Player
 
 logger = get_logger(__name__)
 
@@ -17,19 +16,21 @@ class PlayersManager:
         if len(self.players_list) == MAX_PLAYERS_COUNT:
             raise TooManyPlayers
         self.players_list.append(Player(discord_acc_name, robonomics_address))
-        logger.info(f"Address {robonomics_address} from user {discord_acc_name} wass added to players")
+        logger.info(
+            f"Address {robonomics_address} from user {discord_acc_name} wass added to players"
+        )
 
     def get_players_addresses(self) -> tp.List[str]:
         addresses = []
         for player in self.players_list:
             addresses.append(player.robonomics_address)
         return addresses
-    
+
     def get_player_for_address(self, address: str) -> tp.Optional[Player]:
         for player in self.players_list:
             if player.robonomics_address == address:
                 return player
-    
+
     def clear_players(self) -> None:
         logger.info("Clear players list")
         self.players_list.clear()
