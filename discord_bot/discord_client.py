@@ -38,11 +38,29 @@ class Discord:
     async def send_message_with_dapp(self) -> None:
         await self.discord_client.send_message(MessageManager.message_with_dapp())
 
-    async def send_message_with_winner(
-        self, winner_address: str, winner_user_name: tp.Optional[str]
-    ) -> None:
+    async def send_message_with_winner(self, winner_address: str) -> None:
         await self.discord_client.send_message(
-            MessageManager.message_with_winner(winner_address, winner_user_name)
+            MessageManager.message_with_winner(winner_address)
+        )
+
+    async def send_message_timer_finished_no_address(self) -> None:
+        await self.discord_client.send_message(
+            MessageManager.timer_finished_no_address_message()
+        )
+
+    async def send_message_timer_reminder(self, minutes_left: int) -> None:
+        await self.discord_client.send_message(
+            MessageManager.timer_reminder_message(minutes_left)
+        )
+
+    async def send_message_address_added(self, address: str) -> None:
+        await self.discord_client.send_message(
+            MessageManager.address_added_message(address)
+        )
+
+    async def send_message_timer_finished_start(self, addresses: tp.List[str]) -> None:
+        await self.discord_client.send_message(
+            MessageManager.timer_finished_start_message(addresses)
         )
 
     async def send_message_second_address_from_user(
