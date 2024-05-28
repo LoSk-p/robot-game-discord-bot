@@ -6,12 +6,12 @@ from discord import Member, Message, User
 class MessageManager:
 
     @staticmethod
-    def wrong_format_message(address: str, message: Message) -> str:
-        return f"Address {address} from {message.author} has wrong format."
+    def wrong_format_message(message: Message) -> str:
+        return f"Address from {message.author} has wrong format."
 
     @staticmethod
-    def wrong_type_message(address: str, message: Message) -> str:
-        return f"Address {address} from {message.author} has wrong type. Please, use only addresses with ED25519 type."
+    def wrong_type_message(message: Message) -> str:
+        return f"Address from {message.author} has wrong type. Please, use only addresses with ED25519 type."
 
     @staticmethod
     def start_round_message() -> str:

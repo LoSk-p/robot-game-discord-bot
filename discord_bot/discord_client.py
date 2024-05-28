@@ -93,11 +93,11 @@ class Discord:
         except AddressIsInWrongFormat:
             logger.info(f"Given address is in wrong format: {message.content}")
             await self.discord_client.send_message(
-                MessageManager.wrong_format_message(address, message)
+                MessageManager.wrong_format_message(message)
             )
         except AddressIsNotED25519:
             logger.info(f"Given address is not ed type: {message.content}")
             await self.discord_client.send_message(
-                MessageManager.wrong_type_message(address, message)
+                MessageManager.wrong_type_message(message)
             )
         return address
