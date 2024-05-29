@@ -34,7 +34,7 @@ class Robonomics:
 
     async def send_start_command_to_robot(self, seed: str) -> None:
         logger.info(f"Start sending start command to robot with seed: {seed}")
-        encrypted_seed = self._encrypt_message(seed)
+        encrypted_seed = self._encrypt_message({"seed": seed})
         logger.info(f"Encrypted command: {encrypted_seed}")
         ipfs_hash = await IPFSPinner().pin(encrypted_seed)
         await self._send_launch(ipfs_hash)
