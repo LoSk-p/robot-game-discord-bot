@@ -56,6 +56,7 @@ class Robonomics:
     def _set_devices(self, devices_list: tp.List[str]) -> None:
         if self.rws_owner_address not in devices_list:
             devices_list.append(self.rws_owner_address)
+        if self.robot_address not in devices_list:
             devices_list.append(self.robot_address)
         logger.info(f"Start setting new devices list {devices_list}")
         rws = RWS(self.rws_owner_account, rws_sub_owner=self.rws_owner_address)
