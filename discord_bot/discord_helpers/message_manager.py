@@ -15,7 +15,7 @@ class MessageManager:
 
     @staticmethod
     def start_round_message() -> str:
-        return """Hey there, hackers! Just so you know, the gathering of addresses for a friendly hack into Johnny's laboratory has begun. The first three addresses we get in ED25519 format will be given the green light to take a peek at the lab logs.\n \nThe rulebook for this hacking showdown can be found right over at this link: ссылка_в_академии \n \nYou've got 30 minutes left 'til the digital doors open…"""
+        return """Hey there, hackers! Just so you know, the gathering of addresses for a friendly hack into Johnny's laboratory has begun. The addresses we get in ED25519 format will be given the green light to take a peek at the lab logs.\n \nThe rulebook for this hacking showdown can be found right over at this link: https://robonomics.network/blog/robonomics-school-2024-hack-johnny-lab/ \n \nYou've got 30 minutes left 'til the digital doors open…"""
 
     @staticmethod
     def timer_finished_no_address_message() -> str:
@@ -42,7 +42,7 @@ class MessageManager:
 
     @staticmethod
     def message_with_dapp() -> str:
-        return """Hey, hackers! Robot's done with its mission, you can find all the juicy logs over in the dapp: \n**ссылка_на_dapp** \nJust hanging out here, waiting for some log hacking and token theft…"""
+        return """Hey, hackers! Robot's done with its mission, you can find all the juicy logs over in the dapp: \nhttps://johnnyb-lab.robonomics.academy/ \nJust hanging out here, waiting for some log hacking and token theft…"""
 
     def message_with_winner(winner_address: str) -> str:
         return f"Good job, hackers! You totally nailed the hack, {winner_address} address grabbed all tokens."
