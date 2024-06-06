@@ -13,8 +13,6 @@ class PlayersManager:
         self.players_list: tp.List[Player] = []
 
     def add_player(self, discord_acc_name: str, robonomics_address: str) -> None:
-        if len(self.players_list) == MAX_PLAYERS_COUNT:
-            raise TooManyPlayers
         self.players_list.append(Player(discord_acc_name, robonomics_address))
         logger.info(
             f"Address {robonomics_address} from user {discord_acc_name} wass added to players"
@@ -45,7 +43,3 @@ class PlayersManager:
     @property
     def empty(self) -> bool:
         return len(self.players_list) == 0
-
-    @property
-    def full(self) -> bool:
-        return len(self.players_list) >= MAX_PLAYERS_COUNT

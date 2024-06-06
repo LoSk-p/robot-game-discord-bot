@@ -29,9 +29,11 @@ class GameTimer:
             if self._callback is not None:
                 minutes_gone = minute + 1
                 left_minutes: int = self._timeout_in_minutes - minutes_gone
+                if left_minutes == 0:
+                    self.is_running = False
+                    logger.info("Timer finished")
                 await self._callback(left_minutes)
         self.is_running = False
-        logger.info("Timer finished")
 
     def stop(self):
         logger.info("Timer stopped")

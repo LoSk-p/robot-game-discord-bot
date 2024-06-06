@@ -56,9 +56,8 @@ class Coordinator:
             return
         self.players_manager.add_player(message_author.name, address)
         await self.discord.send_message_address_added(address)
-        if self.players_manager.full:
-            self.stop_wait_for_addresses()
         if not self.game_timer.is_running:
+            self.stop_wait_for_addresses()
             await self._second_stage()
 
     async def _first_stage_timer_callback(self, minutes_left: int):
@@ -69,6 +68,7 @@ class Coordinator:
                 await self.discord.send_message_timer_finished_no_address()
                 logger.info("Wait for the first player")
             else:
+                self.stop_wait_for_addresses()
                 await self._second_stage()
 
     async def _second_stage(self):
@@ -100,4 +100,5 @@ class Coordinator:
         await self.discord.send_message_with_winner(winner_address)
         await self.robonomics.clear_rws_devices()
         self.players_manager.clear_players()
-        await self._start_round()
+        await self.discord.close_connection()
+        # await self._start_round()

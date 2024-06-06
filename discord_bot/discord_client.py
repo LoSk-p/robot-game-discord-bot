@@ -31,6 +31,9 @@ class Discord:
         logger.info("Start wait for addresses")
         self.got_address_callback = callback
         return self._stop_wait_for_addresses
+    
+    async def close_connection(self) -> None:
+        await self.discord_client.close()
 
     async def send_start_message(self) -> None:
         await self.discord_client.send_message(MessageManager.start_round_message())
