@@ -16,7 +16,7 @@ from .seed_manager import SeedManager
 #         read current stage with data
 # Player should't save all discord acc, only name
 
-MINUTES_TO_REMIND = [20, 10, 5, 1]
+MINUTES_TO_REMIND = [30, 20, 10, 5, 1]
 
 logger = get_logger(__name__)
 
