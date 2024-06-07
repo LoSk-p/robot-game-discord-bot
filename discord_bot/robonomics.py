@@ -81,5 +81,5 @@ class Robonomics:
         logger.info(f"Launch with ipfs hash {ipfs_hash} was sent")
 
     def _get_address_for_seed(self, seed: str) -> str:
-        acc = Account(seed, crypto_type=KeypairType.ED25519)
+        acc = Account(seed)
         return acc.get_address()
