@@ -42,7 +42,7 @@ class MessageManager:
 
     @staticmethod
     def message_with_dapp() -> str:
-        return """Hey, hackers! Robot's done with its mission, you can find all the juicy logs over in the dapp: \nhttps://johnnyb-lab.robonomics.academy/ \nJust hanging out here, waiting for some log hacking and token theft…"""
+        return """Hey, hackers! Robot's done with its mission, you can find all the juicy logs over in the dapp: \nhttps://robonomics.academy/en/demoapps/johnnyb-lab/ \nJust hanging out here, waiting for some log hacking and token theft…"""
 
     def message_with_winner(winner_address: str) -> str:
         return f"Good job, hackers! You totally nailed the hack, {winner_address} address grabbed all tokens."
