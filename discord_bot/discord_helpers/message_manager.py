@@ -15,7 +15,7 @@ class MessageManager:
 
     @staticmethod
     def start_round_message() -> str:
-        return """Hey there, hackers! Just so you know, the gathering of addresses for a friendly hack into Johnny's laboratory has begun. The addresses we get in ED25519 format will be given the green light to take a peek at the lab logs.\n \nThe rulebook for this hacking showdown can be found right over at this link: https://robonomics.network/blog/robonomics-school-2024-hack-johnny-lab/ \n \nYou've got 30 minutes left 'til the digital doors open…"""
+        return """Hey there, hackers, @everyone! Just so you know, the gathering of addresses for a friendly hack into Johnny's laboratory has begun. The addresses we get in ED25519 format will be given the green light to take a peek at the lab logs.\n \nThe rulebook for this hacking showdown can be found right over at this link: https://robonomics.network/blog/robonomics-school-2024-hack-johnny-lab/ \n \nYou've got 30 minutes left 'til the digital doors open…"""
 
     @staticmethod
     def timer_finished_no_address_message() -> str:

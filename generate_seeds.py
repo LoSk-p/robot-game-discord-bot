@@ -3,7 +3,7 @@ import json
 
 from discord_bot.utils import get_path_to_unused_seeds
 
-SEEDS_COUNT = 420
+SEEDS_COUNT = 18
 
 seeds = []
 for i in range(SEEDS_COUNT):

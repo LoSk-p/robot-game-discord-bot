@@ -3,3 +3,4 @@ discord_bot/data/unused_seeds.json
 discord_bot/data/used_seeds.json
 __pycache__
 .pytest_cache
+send_tokens.py
