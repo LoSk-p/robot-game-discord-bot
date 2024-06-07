@@ -26,7 +26,7 @@ class MessageManager:
         addresses_text = ""
         for address in addresses:
             addresses_text += f"- {address}\n"
-        return f"""The hacking of the laboratory has started! Participating addresses:\n{addresses_text}\nHackers, hold tight for the robot hack and result of its recon mission…"""
+        return f"""The hacking of the laboratory has started! Participating addresses:\n{addresses_text}\nHackers, hold tight for the robot hack and result of its recon mission… \nThis will take approximately 12-15 minutes."""
 
     @staticmethod
     def winner_message(address: str, author: str) -> str:
