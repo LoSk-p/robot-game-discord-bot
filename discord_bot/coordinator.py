@@ -98,7 +98,7 @@ class Coordinator:
 
     async def _last_stage(self, winner_address: str):
         await self.discord.send_message_with_winner(winner_address)
-        await self.robonomics.clear_rws_devices()
+        # await self.robonomics.clear_rws_devices()
         self.players_manager.clear_players()
         await self.discord.close_connection()
         # await self._start_round()
