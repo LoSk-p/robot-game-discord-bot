@@ -36,6 +36,7 @@ class Discord:
         await self.discord_client.close()
 
     async def send_start_message(self) -> None:
+        logger.info("Sending start message..")
         await self.discord_client.send_message(MessageManager.start_round_message())
 
     async def send_message_with_dapp(self) -> None:
